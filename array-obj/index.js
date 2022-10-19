@@ -1,20 +1,68 @@
-const students = [
-    {name: 'emmanuel', phone: 1232343553, village: 'Ideato North'},
-    {name: 'emeka', phone: 1232343253, village: 'Nsukka'},
-    {name: 'divine', phone: 4432343553, village: 'Atabong'},
-    {name: 'solomon', phone: 4432343773, village: 'Esit-eket'},
-    {name: 'jonathan', phone: 123456789, village: 'Akoko Edo'}
-]
-const studentIndex = students.findIndex(student => student.phone == 123456789)
+const students = localStorage.getItem('students') ?
+    JSON.parse(localStorage.getItem('students')) : []
 
-console.log(students)
-let student =students[studentIndex]
-student.name = 'editedname'
-student.village = 'edo'
-// console.log(newName)
+let editMode = false
+let indexToEdit = undefined
 
 
-// if (newName==)
+function submitForm(e) {
+    const name = document.getElementById('name').value
+    const phone = document.getElementById('phone').value
+    const village = document.getElementById('village').value
+
+    const obj = {name: name, phone: phone, village: village } /* ES5 */
+    // const obj = { name, phone, village } ES6
+
+    if (editMode) {
+        students[indexToEdit] = obj
+    } else {
+        students.push(obj)
+    }
+
+
+    localStorage.setItem('students', JSON.stringify(students))
+
+    displayData(students)
+    reset()
+
+}
+
+function editStudent(i) {
+    editMode = true
+    indexToEdit = i
+    const student = students[i]
+
+    document.getElementById('name').value = student.name
+    document.getElementById('phone').value = student.phone
+    document.getElementById('village').value = student.village
+}
+
+
+function reset() {
+    editMode = false
+
+    document.getElementById('name').value = ''
+    document.getElementById('phone').value = ''
+    document.getElementById('village').value = ''
+}
+
+function displayData(data) {
+
+    let el = '<div>'
+    data.forEach((item, index) => {
+        el += `<p>
+            ${item.name} - 
+            ${item.phone} - 
+            ${item.village} <br />
+            <button type="button" onclick="editStudent(${index})">Edit</button>
+    </p>`
+    })
+    el += '</div>'
+    document.getElementById('data').innerHTML = el
+}
+
+displayData(students)
+
 
 
 
