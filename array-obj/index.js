@@ -11,7 +11,6 @@ function submitForm(e) {
   const village = document.getElementById('village').value
 
   const obj = {
-    id:
     name: name,
     phone: phone,
     village: village
@@ -59,9 +58,9 @@ function reset() {
 
 function displayData(data) {
 
-  let el = '<div>'
+  let el = '<div class="items">'
   data.forEach((item, index) => {
-    el += `<p>
+    el += `<p class="p">
             ${item.name} - 
             ${item.phone} - 
             ${item.village} <br />
@@ -73,7 +72,19 @@ function displayData(data) {
   document.getElementById('data').innerHTML = el
 }
 
+function styleItems() {
+  let itemChildren = document.querySelector('.items').children
+// return console.log(itemChildren)
+  for (const item of itemChildren) {
+    if(item.innerText.includes('08064152319')) {
+      return item.style.background = 'red'
+    }
+  }
+}
+
 displayData(students)
+
+
 
 
 
